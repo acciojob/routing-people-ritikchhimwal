@@ -8,25 +8,30 @@ const UserDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true); // Ensure loading is true before fetching starts
-    axios
-      .get(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then((response) => {
+    setLoading(true); // Ensure loading is true at the start of fetching
+    const fetchData = async () => {
+      try {
+        // Simulate a delay to test the loading state
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = await axios.get(
+          `https://jsonplaceholder.typicode.com/users/${id}`
+        );
         setUser(response.data);
-        setLoading(false); // Fetch successful
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching user details:", error);
-        setLoading(false); // Handle fetch error
-      });
+      } finally {
+        setLoading(false); // Ensure loading is set to false after fetching
+      }
+    };
+    fetchData();
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading message
+    return <div>Loading...</div>;
   }
 
   if (!user) {
-    return <p>User not found</p>; // Handle case where user data is null
+    return <p>User not found</p>;
   }
 
   return (
