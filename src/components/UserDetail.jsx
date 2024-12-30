@@ -22,7 +22,7 @@ const UserDetail = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading... </div>; 
+    return <div><p>Loading...</p></div>; 
   }
 
   if (!user) {
